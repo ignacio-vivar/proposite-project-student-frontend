@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Proposite Project",
-  description: "Proyecto Proposito",
+  title: "Calificaciones Estudiantes",
+  description: "Calificaciones Estudiantes",
 };
 
 export default function RootLayout({
