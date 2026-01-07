@@ -136,7 +136,7 @@ export default function GradesTable({ id }: Props) {
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className={`px-2 py-2 text-center border-b ${index === 0 ? "w-[35%]" : index === 1 ? "w-[15%]" : index === 2 ? "w-[15%]" : "w-[35%]"} `}
+                    className={`px-2 py-2 text-center border-b ${index === 0 ? "w-[20%]" : index === 1 ? "w-[15%]" : index === 2 ? "w-[15%]" : "w-[40%]"} `}
                   >
                     {header.isPlaceholder ? null : (
                       <div className="space-y-3">
