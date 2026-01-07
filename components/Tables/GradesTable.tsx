@@ -2,8 +2,6 @@
 
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import {
-  Column,
-  Table,
   ColumnDef,
   useReactTable,
   getCoreRowModel,
@@ -12,7 +10,6 @@ import {
   flexRender,
   RowData,
 } from "@tanstack/react-table";
-import { Input } from "../ui/input";
 import { useApi } from "@/hooks/useApi";
 import { StudentCalifications } from "@/models/grades.model";
 import { CorrectionCell } from "../Specials/CorrectionCell";
@@ -58,10 +55,21 @@ export default function GradesTable({ id }: Props) {
 
   const columns = useMemo<ColumnDef<StudentCalifications>[]>(
     () => [
-      { header: "Trabajo", accessorFn: (row) => row.task.description },
+      {
+        header: "Trabajo",
+        accessorFn: (row) => row.task.description,
+        cell: ({ getValue }) => (
+          <div className="max-w-[100px] break-words text-xs leading-tight">
+            {getValue() as string}
+          </div>
+        ),
+      },
       {
         header: "Nota",
         accessorKey: "grade",
+        cell: ({ getValue }) => (
+          <div className="font-semibold">{getValue() as string}</div>
+        ),
       },
       {
         header: "Obs.",
@@ -120,15 +128,15 @@ export default function GradesTable({ id }: Props) {
   return (
     <div className="mx-auto">
       <div className="border rounded-lg shadow overflow-hidden">
-        <table className="w-full">
+        <table className="w-full table-fixed">
           <thead className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header, index) => (
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="px-2 py-2 text-center border-b"
+                    className={`px-2 py-2 text-center border-b ${index === 0 ? "w-[35%]" : index === 1 ? "w-[15%]" : index === 2 ? "w-[15%]" : "w-[35%]"} `}
                   >
                     {header.isPlaceholder ? null : (
                       <div className="space-y-3">
@@ -154,7 +162,8 @@ export default function GradesTable({ id }: Props) {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-2 py-2 border-b text-center text-sm h-[100px]"
+                    className={`px-1 py-1 border-b text-center text-sm h-[100px] ${cell.column.id === "task.description" ? "break-words" : ""
+                      }`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
@@ -164,10 +173,10 @@ export default function GradesTable({ id }: Props) {
           </tbody>
         </table>
       </div>
+
       <div className="mt-2 text-xs text-gray-500 text-center">
         <span className="font-medium">Referencias:</span>
         <span className="ml-2">Obs. = Observaciones</span>
-        {/* Puedes agregar más si necesitas */}
       </div>
       <div className="mt-4 flex flex-row justify-around items-center gap-2">
         <button

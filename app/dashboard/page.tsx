@@ -23,10 +23,17 @@ export default function Dashboard() {
     }
   }, [dataAssignatures]);
 
-  if (loading || assignatures.length === 0) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>Cargando contenido...</p>
+      </div>
+    );
+  }
+  if (assignatures.length === 0) {
+    return (
+      <div className="flex justify-center min-h-scren py-20">
+        Usted no dispone de ninguna calificación
       </div>
     );
   }

@@ -17,7 +17,7 @@ export function CorrectionCell({ row }: Props) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button disabled={!row.original.observation} className="w-full">
+        <Button disabled={!row.original.observation} className="text-xs">
           Abrir
         </Button>
       </PopoverTrigger>
