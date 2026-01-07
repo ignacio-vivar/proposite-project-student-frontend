@@ -30,7 +30,7 @@ export default function Dashboard() {
       </div>
     );
   }
-  if (assignatures.length === 0) {
+  if (!loading && assignatures.length === 0) {
     return (
       <div className="flex justify-center min-h-scren py-20">
         Usted no dispone de ninguna calificación

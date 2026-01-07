@@ -47,7 +47,11 @@ export default function GradesTable({ id }: Props) {
     () => getStudentCalificationsByAssignature(id),
     [id],
   );
-  const { data: dataAssigments, fetch: refetchAssigments } = useApi(requestFn, {
+  const {
+    data: dataAssigments,
+    fetch: refetchAssigments,
+    loading: isLoadingData,
+  } = useApi(requestFn, {
     autoFetch: true,
   });
 
@@ -154,22 +158,38 @@ export default function GradesTable({ id }: Props) {
             ))}
           </thead>
           <tbody className="overflow-auto">
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="hover:bg-gray-50 border-2 border-gray-200 overflow-hidden "
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={`px-1 py-1 border-b text-center text-sm h-[100px] ${cell.column.id === "task.description" ? "break-words" : ""
-                      }`}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+            {isLoadingData ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-8 text-center text-gray-500"
+                >
+                  Cargando...
+                </td>
               </tr>
-            ))}
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="hover:bg-gray-50 border-2 border-gray-200 overflow-hidden "
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={`px-1 py-1 border-b text-center text-sm h-[100px] ${cell.column.id === "task.description"
+                          ? "break-words"
+                          : ""
+                        }`}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
